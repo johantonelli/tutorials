@@ -5,7 +5,8 @@
     [crux.api :as crux]
     [tutorials.crux.earth :as earth]
     [tutorials.crux.pluto :as pluto]
-    [tutorials.crux.mercury :as mercury]))
+    [tutorials.crux.mercury :as mercury]
+    [tutorials.crux.neptune :as neptune]))
 
 (defn string-resource
   [x]
@@ -46,3 +47,11 @@
           query-all
           pprint-data
           string-resource))
+
+(defmethod ig/init-key ::neptune
+  [_ _]
+  (some-> neptune/node
+          query-all
+          pprint-data
+          string-resource))
+
