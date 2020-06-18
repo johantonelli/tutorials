@@ -11,3 +11,6 @@
 
 **/.vscode
 **/.clj-kondo/.cache
+
+*~
+*#
