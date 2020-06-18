@@ -1,0 +1,7 @@
+{:ig/system
+ {:tutorials.crux.core/string "Hello, crux!"
+  :edge.yada.ig/listener {:handler #ig/ref :edge.bidi.ig/vhost
+                          :port 4949}
+  :edge.bidi.ig/vhost [["http://localhost:4949"
+                        [""
+                         [["/" #ig/ref :tutorials.crux.core/string]]]]]}}
