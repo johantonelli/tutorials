@@ -20,10 +20,11 @@
 
 (defn query-all
   [node]
-  (let [ids (crux/q (crux/db node)
-                    '{:find [e]
-                      :where [[e :crux.db/id]]})]
-    (mapv #(crux/entity (crux/db node) (first %)) ids)))
+  (crux/q
+   (crux/db node)
+   '{:find [id]
+     :where [[e :crux.db/id id]]
+     :full-results? true}))
 
 (defn pprint-data
   [data]
