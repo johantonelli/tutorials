@@ -7,7 +7,8 @@
     [tutorials.crux.pluto :as pluto]
     [tutorials.crux.mercury :as mercury]
     [tutorials.crux.neptune :as neptune]
-    [tutorials.crux.saturn :as saturn]))
+    [tutorials.crux.saturn :as saturn]
+    [tutorials.crux.jupiter :as jupiter]))
 
 (defn string-resource
   [x]
@@ -63,3 +64,9 @@
           pprint-data
           string-resource))
 
+(defmethod ig/init-key ::jupiter
+  [_ _]
+  (some-> jupiter/node
+          query-all
+          pprint-data
+          string-resource))

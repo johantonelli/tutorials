@@ -5,6 +5,7 @@
   :tutorials.crux.core/mercury nil
   :tutorials.crux.core/neptune nil
   :tutorials.crux.core/saturn nil
+  :tutorials.crux.core/jupiter nil
   :edge.yada.ig/listener {:handler #ig/ref :edge.bidi.ig/vhost
                           :port 4949}
   :edge.bidi.ig/vhost [["http://localhost:4949"
@@ -14,4 +15,5 @@
                           ["/pluto" #ig/ref :tutorials.crux.core/pluto]
                           ["/mercury" #ig/ref :tutorials.crux.core/mercury]
                           ["/neptune" #ig/ref :tutorials.crux.core/neptune]
-                          ["/saturn" #ig/ref :tutorials.crux.core/saturn]]]]]}}
+                          ["/saturn" #ig/ref :tutorials.crux.core/saturn]
+                          ["/jupiter" #ig/ref :tutorials.crux.core/jupiter]]]]]}}
