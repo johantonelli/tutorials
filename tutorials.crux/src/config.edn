@@ -10,4 +10,5 @@
                         [""
                          [["/" #ig/ref :tutorials.crux.core/string]
                           ["/earth" #ig/ref :tutorials.crux.core/earth]
-                          ["/pluto" #ig/ref :tutorials.crux.core/pluto]]]]]}}
+                          ["/pluto" #ig/ref :tutorials.crux.core/pluto]
+                          ["/mercury" #ig/ref :tutorials.crux.core/mercury]]]]]}}

@@ -4,7 +4,8 @@
     [integrant.core :as ig]
     [crux.api :as crux]
     [tutorials.crux.earth :as earth]
-    [tutorials.crux.pluto :as pluto]))
+    [tutorials.crux.pluto :as pluto]
+    [tutorials.crux.mercury :as mercury]))
 
 (defn string-resource
   [x]
@@ -35,6 +36,13 @@
 (defmethod ig/init-key ::pluto
   [_ _]
   (some-> pluto/node
+          query-all
+          pprint-data
+          string-resource))
+
+(defmethod ig/init-key ::mercury
+  [_ _]
+  (some-> mercury/node
           query-all
           pprint-data
           string-resource))
