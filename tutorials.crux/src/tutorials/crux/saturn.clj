@@ -44,7 +44,7 @@
 ;; Ingest
 (easy-ingest node data)
 
-;; Helper fns
+;; tag::helper[]
 (defn stock-check
   [company-id item]
   {:result (crux/q (crux/db node)
@@ -59,9 +59,9 @@
   [{:keys [result item] :as stock-check}]
   (for [[name funds commod] result]
     (str "Name: " name ", Funds: " funds ", " item " " commod)))
+;; end::helper[]
 
-;; use match
-
+;; tag::match[]
 (crux/submit-tx
  node
  [[:crux.tx/match
@@ -98,13 +98,18 @@
     :units/N 3
     :units/CH4 82
     :credits 151}]])
+;;=> #:crux.tx{:tx-id 0, :tx-time #inst "2020-06-18T15:37:20.271-00:00"}
+;; end::match[]
 
-;; check
+;; tag::check[]
 (format-stock-check (stock-check :tombaugh-resources :units/CH4))
+;;=> ("Name: Tombaugh Resources Ltd., Funds: 151, :units/CH4 82")
 
 (format-stock-check (stock-check :blue-energy :units/CH4))
+;;=> ("Name: Blue Energy, Funds: 900, :units/CH4 10")
+;; end::check[]
 
-;; Another match
+;; tag::another-match[]
 (crux/submit-tx
  node
  [[:crux.tx/match
@@ -122,7 +127,6 @@
     :buyer? false
     :units/Au 211
     :credits 51}]
-
   [:crux.tx/match
    :encompass-trade
    {:crux.db/id :encompass-trade
@@ -142,20 +146,31 @@
     :units/Pu 5
     :units/CH4 211
     :credits 1002}]])
+;;=> #:crux.tx{:tx-id 1, :tx-time #inst "2020-06-18T15:23:38.540-00:00"}
+;; end::another-match[]
 
-;; Another check
+;; tag::another-check[]
 (format-stock-check (stock-check :gold-harmony :units/Au))
+;;=> ("Name: Gold Harmony, Funds: 51, :units/Au 10211")
 
 (format-stock-check (stock-check :encompass-trade :units/Au))
+;;=> ("Name: Encompass Trade, Funds: 1002, :units/Au 10")
+;; end::another-check[]
 
 ;; Update manifest
+;; tag::manifest[]
 (crux/submit-tx
  node [[:crux.tx/put
         (assoc manifest
                :badges ["SETUP" "PUT" "DATALOG-QUERIES" "BITEMP" "MATCH"])]])
+;;=> #:crux.tx{:tx-id 3, :tx-time #inst "2020-06-18T15:24:39.037-00:00"}
+;; end::manifest[]
 
 ;; Check for note
+;; tag::note[]
 (crux/q (crux/db node)
         {:find '[belongings]
          :where '[[e :cargo belongings]]
          :args [{'belongings "secret note"}]})
+;;=> #{["secret note"]}
+;; end::note[]

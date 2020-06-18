@@ -54,12 +54,14 @@
 ;; ingest data
 (easy-ingest node data)
 
-;; Basic query
+;; tag::simple[]
 (crux/q (crux/db node)
         '{:find [element]
           :where [[element :type :element/metal]]})
+;;=> #{[:commodity/Pu] [:commodity/Au]}
+;; end::simple[]
 
-;; Quoting
+;; tag::quote[]
 (=
  (crux/q (crux/db node)
          '{:find [element]
@@ -73,27 +75,36 @@
          (quote
           {:find [element]
            :where [[element :type :element/metal]]})))
+;;=> true
+;; end::quote[]
 
-;; Metal elements
+
+;; tag::metal[]
 (crux/q (crux/db node)
         '{:find [name]
           :where [[e :type :element/metal]
                   [e :common-name name]]})
+;;=> #{["Gold"] ["Plutonium"]}
+;; end::metal[]
 
-;; More info
+;; tag::more[]
 (crux/q (crux/db node)
         '{:find [name rho]
           :where [[e :density rho]
                   [e :common-name name]]})
+;;=> #{["Nitrogen" 1.2506] ["Carbon" 2.267] ["Methane" 0.717] ["Borax" 1.73] ["Gold" 19.3] ["Plutonium" 19.816]}
+;; end::more[]
 
-;; Args
+;; tag::args[]
 (crux/q (crux/db node)
         {:find '[name]
          :where '[[e :type t]
                   [e :common-name name]]
          :args [{'t :element/metal}]})
+;;=> #{["Gold"] ["Plutonium"]}
+;; end::args[]
 
-;; Daily fns
+;; tag::daily[]
 (defn filter-type
   [type]
   (crux/q (crux/db node)
@@ -112,10 +123,15 @@
          :args [{'appearance description}]}))
 
 (filter-type :element/metal)
+;;=> #{["Gold"] ["Plutonium"]}
 
 (filter-appearance "white solid")
+;;=> #{["Borax" "Sodium tetraborate decahydrate"]}
+;; end::daily[]
 
-;; Update manifest
+;; tag::manifest[]
 (crux/submit-tx
  node [[:crux.tx/put (assoc manifest
                             :badges ["SETUP" "PUT" "DATALOG-QUERIES"])]])
+;;=> #:crux.tx{:tx-id 1, :tx-time #inst "2020-06-18T14:31:46.148-00:00"}
+;; end::manifest[]

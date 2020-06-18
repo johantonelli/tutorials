@@ -9,8 +9,10 @@
   integrant {:mvn/version "0.7.0"}
 
   org.clojure/tools.logging {:mvn/version "0.5.0-alpha"}
-  
-  juxt/crux-core {:mvn/version "RELEASE"}}
+  ;; tag::mvn[]
+  juxt/crux-core {:mvn/version "RELEASE"}
+  ;; end::mvn[]
+  }
 
  :aliases
  {:dev

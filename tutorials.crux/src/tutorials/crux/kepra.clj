@@ -2,11 +2,13 @@
   (:require [crux.api :as crux]
             [tutorials.crux.earth :refer [manifest]]))
 
-;; Start node
+;; tag::node[]
 (def node
   (crux/start-node
    {:crux.node/topology '[crux.standalone/topology]
     :crux.kv/db-dir "data/db-dir"}))
+;;=> #'tutorials.crux.kepra/node
+;; end::node[]
 
 ;; define stats
 (def stats
@@ -142,8 +144,12 @@
     :crux.db/id :Mercury}])
 
 ;; Submit the data
+;; tag::submit[]
 (crux/submit-tx node (mapv (fn [stat] [:crux.tx/put stat]) stats))
+;;=> #:crux.tx{:tx-id 0, :tx-time #inst "2020-06-18T16:29:17.952-00:00"}
+;; end::submit[]
 
+;; tag::another-submit[]
 (crux/submit-tx
  node
  [[:crux.tx/put
@@ -158,14 +164,18 @@
     :gravity 1.4
     :type "planet"
     :crux.db/id :Kepra-5}]])
+;;=> #:crux.tx{:tx-id 1, :tx-time #inst "2020-06-18T16:29:39.868-00:00"}
 
 (sort
  (crux/q
   (crux/db node)
   '{:find [g planet]
     :where [[planet :gravity g]]}))
+;;=> ([0.138 :Titan] [0.146 :Ganymede] [0.377 :Mercury] [0.379 :Mars] [0.886 :Uranus] [0.905 :Venus] [1 :Earth] [1.065 :Saturn] [1.137 :Neptune] [1.4 :Kepra-5] [2.52 :Jupiter] [27.9 :Sun])
+;; end::another-submit[]
 
 ;; helper fn
+;; tag::helper[]
 (defn ingest-and-query
   [traveler-doc]
   (crux/submit-tx node [[:crux.tx/put traveler-doc]])
@@ -175,8 +185,10 @@
     :where '[[e :crux.db/id id]
              [e :passport-number n]]
     :args [{'id (:crux.db/id traveler-doc)}]}))
+;; end::helper[]
 
-;; Test it
+
+;; tag::test[]
 (ingest-and-query
  {:crux.db/id :origin-planet/test-traveler
   :chosen-name "Test"
@@ -184,8 +196,21 @@
   :passport-number (java.util.UUID/randomUUID)
   :stamps []
   :penalties []})
+;;=> #{}
+;; end::test[]
 
-;; better helper
+;; tag::re-test[]
+(ingest-and-query
+ {:crux.db/id :origin-planet/test-traveler
+  :chosen-name "Test"
+  :given-name "Test Traveler"
+  :passport-number (java.util.UUID/randomUUID)
+  :stamps []
+  :penalties []})
+;;=> #{[#uuid "aa1015d9-83f4-48c3-adc6-386a0816e145"]}
+;; end::re-test[]
+
+;; tag::better-helper[]
 (defn ingest-and-query
   "Ingests the given travelers document into Crux, returns the passport
   number once the transaction is complete."
@@ -197,8 +222,9 @@
     :where '[[e :crux.db/id id]
              [e :passport-number n]]
     :args [{'id (:crux.db/id traveler-doc)}]}))
+;; end::better-helper[]
 
-;; Test it
+;; tag::test-again[]
 (ingest-and-query
  {:crux.db/id :origin-planet/new-test-traveler
   :chosen-name "Testy"
@@ -206,8 +232,10 @@
   :passport-number (java.util.UUID/randomUUID)
   :stamps []
   :penalties []})
+;;=> #{[#uuid "87e442fe-14e3-4da2-ba29-468546833c58"]}
+;; end::test-again[]
 
-;; Change your name
+;; tag::change-name[]
 (ingest-and-query
  {:crux.db/id :earth/ioelena
   :chosen-name "Ioelena"
@@ -215,3 +243,5 @@
   :passport-number (java.util.UUID/randomUUID)
   :stamps []
   :penalties []})
+;;=> #{[#uuid "b75ee2fe-6f2f-47d6-b3b2-7aee3503c5bc"]}
+;; end::change-name[]
