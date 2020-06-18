@@ -3,7 +3,8 @@
     [yada.yada :as yada]
     [integrant.core :as ig]
     [crux.api :as crux]
-    [tutorials.crux.earth :as earth]))
+    [tutorials.crux.earth :as earth]
+    [tutorials.crux.pluto :as pluto]))
 
 (defn string-resource
   [x]
@@ -27,6 +28,13 @@
 (defmethod ig/init-key ::earth
   [_ _]
   (some-> earth/node
+          query-all
+          pprint-data
+          string-resource))
+
+(defmethod ig/init-key ::pluto
+  [_ _]
+  (some-> pluto/node
           query-all
           pprint-data
           string-resource))

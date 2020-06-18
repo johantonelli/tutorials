@@ -9,6 +9,5 @@
   :edge.bidi.ig/vhost [["http://localhost:4949"
                         [""
                          [["/" #ig/ref :tutorials.crux.core/string]
-                          ["/earth" #ig/ref :tutorials.crux.core/earth]]]]]}}
-
-
+                          ["/earth" #ig/ref :tutorials.crux.core/earth]
+                          ["/pluto" #ig/ref :tutorials.crux.core/pluto]]]]]}}
