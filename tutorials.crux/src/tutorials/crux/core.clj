@@ -9,7 +9,8 @@
     [tutorials.crux.neptune :as neptune]
     [tutorials.crux.saturn :as saturn]
     [tutorials.crux.jupiter :as jupiter]
-    [tutorials.crux.oumuamua :as oumuamua]))
+    [tutorials.crux.oumuamua :as oumuamua]
+    [tutorials.crux.kepra :as kepra]))
 
 (defn string-resource
   [x]
@@ -76,6 +77,13 @@
 (defmethod ig/init-key ::oumuamua
   [_ _]
   (some-> oumuamua/node
+          query-all
+          pprint-data
+          string-resource))
+
+(defmethod ig/init-key ::kepra
+  [_ _]
+  (some-> kepra/node
           query-all
           pprint-data
           string-resource))
