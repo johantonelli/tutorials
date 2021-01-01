@@ -4,10 +4,7 @@
 ;; end::require[]
 
 ;; tag::node[]
-(def node
-  (crux/start-node
-   {:crux.node/topology '[crux.standalone/topology]
-    :crux.kv/db-dir "data/db-dir"}))
+(def node (crux/start-node {}))
 ;; end::node[]
 
 ;; tag::manifest[]
@@ -16,7 +13,7 @@
    :pilot-name "Johanna"
    :id/rocket "SB002-sol"
    :id/employee "22910x2"
-   :badges "SETUP"
+   :badges ["SETUP"]
    :cargo ["stereo" "gold fish" "slippers" "secret note"]})
 ;; end::manifest[]
 

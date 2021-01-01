@@ -5,9 +5,7 @@
 
 ;; Start node
 (def node
-  (crux/start-node
-   {:crux.node/topology '[crux.standalone/topology]
-    :crux.kv/db-dir "data/db-dir"}))
+  (crux/start-node {}))
 
 ;; Define data
 (def data [{:crux.db/id :gold-harmony

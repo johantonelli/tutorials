@@ -4,9 +4,7 @@
 
 ;; tag::node[]
 (def node
-  (crux/start-node
-   {:crux.node/topology '[crux.standalone/topology]
-    :crux.kv/db-dir "data/db-dir"}))
+  (crux/start-node {}))
 ;;=> #'tutorials.crux.kepra/node
 ;; end::node[]
 
